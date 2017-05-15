@@ -6,6 +6,8 @@ import scala.collection._
 
 class Algorithm {
 
+  // lab 5
+
   // Разделить все чётные числа на два, а к нечётным прибавить один.
   def handleArray(arr: Array[Int]): Array[Int] = {
     // 1st variant
@@ -148,6 +150,13 @@ class Algorithm {
     lst.flatMap(item => List[T](item, item))
   }
 
+  // Продублировать все элементы в списке
+  def duplicateTailRec[T](lst: List[T]): List[T] = {
+      lst.foldRight(List[T]()) {(elem, acc) => elem::elem::acc}
+  }
+
+  // lab 6
+
   // В коллекции хранится информация о футболистах и их голах. Создать две коллекции.
   // В одной отсортировать футболистов по голам, а в другой в алфавитном порядке.
   def divideAndSort(players: Map[String, Int]): (List[String], List[Int]) = {
@@ -161,14 +170,93 @@ class Algorithm {
     coll.sum
   }
 
+  // Подсчитать количество совпадающих символов, стоящих на одинаковых позициях
+  // относительно первого элемента, в двух коллекциях.
+  def countSimilarElementsOnTheSamePositions[T](l1: List[T], l2: List[T]): Int = {
+    l1.zip(l2).toMap.count({case(k,v) => k == v})
+  }
+
+  // Удалить в первом списке все чётные элементы, во втором все нечётные и объединить их
+  def deleteOddEven(l1: List[Int], l2: List[Int]): List[Int] = {
+    l1.filter((e: Int) => e % 2 == 1) ++ l2.filter((e: Int) => e % 2 == 0)
+  }
+
+  // Сортировка списка методом quicksort
+  def quicksort(lst: List[Int]): List[Int] = lst match {
+    case head :: tail => {
+      val left = tail.filter(_ < head)
+      val right = tail.filter(_ >= head)
+      quicksort(left) ++ List(head) ++ quicksort(right) }
+    case Nil => Nil
+  }
+
+  // Проверить гипотезу Коллатца
+  def checkCollatsHypothesis(num: Int): Boolean = num match{
+    case 1 => true
+    case _ => if(num % 2 == 0) checkCollatsHypothesis(num / 2) else checkCollatsHypothesis(num * 3 + 1)
+  }
+
+  def customFilter(lst: List[Int], f:(Int) => Boolean): List[Int] = {
+    lst.filter((item: Int) => f(item))
+  }
+
   // Найти сумму всех элементов коллекции. Используя функции высших порядков
   def sumColl(coll: Iterable[Int], f: (Iterable[Int] => Int)): Int = {
     f(coll)
   }
 
-  // Подсчитать количество совпадающих символов, стоящих на одинаковых позициях
-  // относительно первого элемента, в двух коллекциях.
-  def countSimilarElementsOnTheSamePositions[T](l1: List[T], l2: List[T]): Int = {
-    l1.zip(l2).toMap.count({case(k,v) => k == v})
+  // вывести все чётные элементы списка
+  def printOddItems(lst: List[Int]): Unit = {
+    lst.foreach((item: Int) => if(item % 2 == 0) print(item + " "))
+  }
+
+  // реализовать функцию нахождения чисел Армстронга
+  def findArmstrongNums(a: Int, b: Int): List[Int] = {
+    if (a > b) Nil
+    else {
+      if (a == a.toString.toList.map(_.asDigit).map(pow(_, a.toString.toList.size).toInt).sum)
+        a :: findArmstrongNums(a + 1, b)
+      else findArmstrongNums(a + 1, b)
+    }
+  }
+
+  // lab 7
+
+  // Все элементы, стоящие на чётной позиции, заменить на нули, а стоящие на нечётной,
+  // на единицы
+  def handleListWithZeroOne(lst: List[Int]) : List[Int] = {
+    def handlerHelper(lst: List[Int], next: Int): List[Int] = lst match{
+      case Nil => Nil
+      case h :: t => if(next == 0) 0 :: handlerHelper(t, 1) else 1 :: handlerHelper(t, 0)
+    }
+    handlerHelper(lst, 1)
+  }
+
+  // Найти модуль числа
+  def abs(n: Int): Int = {
+    if (n > 0 ) n else -n
+  }
+
+  // НОК чисел используя функцию с переменным числом параметров (хвостовая рекурсия)
+  def lcm(args: Int*): Int = {
+
+    def gcd(n: Int, m: Int): Int = {
+      def find(min: Int): Int = {
+        if ((n % min == 0) && (m % min == 0)) min
+        else find(min - 1)
+      }
+      find(min(n, m))
+    }
+
+        def lcmAlgorithm(a: Int, b: Int): Int = {
+          abs(a * b) / gcd(a, b)
+        }
+
+    def helper(lst: List[Int]): Int = {
+      if(lst.length == 2) lcmAlgorithm(lst(0), lst(1))
+      else lcmAlgorithm(lst(0), helper(lst.tail))
+    }
+
+    helper(args.toList)
   }
 }
