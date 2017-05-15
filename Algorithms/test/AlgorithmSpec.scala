@@ -186,11 +186,46 @@ class AlgorithmSpec extends FunSuite{
     assert(algo.sumCollection(seq) == 15)
   }
 
+  test("Returns count of pairs of similar elements in 2 lists that has similar positions"){
+    val l1 = List(1,2,3,4,5)
+    val l2 = List(3,1,2,4,5)
+
+    assert(algo.countSimilarElementsOnTheSamePositions(l1, l2) == 2)
+  }
+
+  test("Removes from 1st list odd items, from 2nd even items and concatanates them"){
+    val l1 = List(1,2,3,4,5,6)
+    val l2 = List(1,2,3,4,5,6)
+
+    assert(algo.deleteOddEven(l1, l2).equals(List(1,3,5,2,4,6)))
+
+  }
+
+  test("Sorts elements in list using quicksort algorithm"){
+    val lst = List(4,1,3,7,2,9,10,5,6)
+    assert(algo.quicksort(lst).equals(List(1,2,3,4,5,6,7,9,10)))
+  }
+
+  test("checks if Collats hypothesis"){
+    assert(algo.checkCollatsHypothesis(5))
+    assert(algo.checkCollatsHypothesis(3))
+    assert(algo.checkCollatsHypothesis(333))
+    assert(algo.checkCollatsHypothesis(444777))
+    assert(algo.checkCollatsHypothesis(4447777))
+    assert(algo.checkCollatsHypothesis(24000000))
+    assert(algo.checkCollatsHypothesis(99999999))
+  }
+
+  test("куег"){
+    val isOdd = (n: Int) => if(n % 2 == 0) true else false
+    val lst = List(1,2,3,4,5,6,7)
+    assert(algo.customFilter(lst, isOdd).equals(List(2,4,6)))
+  }
+
   test("Returns sum of all elements in collection according input function"){
     val lst = List(1,2,3,4,5)
     val set = Set(1,2,3,4,6)
     val seq = Seq(1,2,3,4,7)
-    val map = Map("a" -> 1, "b" -> 2, "c" -> 3, "d" -> 4)
 
     val funSum = (coll: Iterable[Int]) => coll.sum
 
@@ -199,10 +234,25 @@ class AlgorithmSpec extends FunSuite{
     assert(algo.sumColl(seq, funSum) == 17)
   }
 
-  test("Returns count of pairs of similar elements in 2 lists that has similar positions"){
-    val l1 = List[Int](1,2,3,4,5)
-    val l2 = List(3,1,2,4,5)
+  test("Returns list of Armstrong numbers from interval [a; b]"){
+    val a = 0
+    val b = 400
+    assert(algo.findArmstrongNums(a, b).equals(List(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 153, 370, 371)))
+  }
 
-    assert(algo.countSimilarElementsOnTheSamePositions(l1, l2) == 2)
+  test("Replaces in input list even elements by 1 and odds by 0 "){
+    assert(algo.handleListWithZeroOne(List(1,2,3,4,5,6,7,8,9,10)).equals(List(1,0,1,0,1,0,1,0,1,0)))
+  }
+
+  test("Returns absolute value of input number"){
+    assert(algo.abs(47) == 47)
+    assert(algo.abs(-47) == 47)
+  }
+
+  test("Finds NOK of input numbers"){
+    assert(algo.lcm(12,18,36) == 36)
+    assert(algo.lcm(3,6,4) == 12)
+    assert(algo.lcm(2,4,8) == 8)
+    assert(algo.lcm(32,16,256,512) == 512)
   }
 }
