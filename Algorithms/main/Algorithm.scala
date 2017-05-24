@@ -196,7 +196,7 @@ class Algorithm {
     case _ => if(num % 2 == 0) checkCollatsHypothesis(num / 2) else checkCollatsHypothesis(num * 3 + 1)
   }
 
-  def customFilter(lst: List[Int], f:(Int) => Boolean): List[Int] = {
+  def customFilter(lst: List[Int], f: Int => Boolean): List[Int] = {
     lst.filter((item: Int) => f(item))
   }
 
@@ -259,4 +259,29 @@ class Algorithm {
 
     helper(args.toList)
   }
+
+  def max(lst: List[Int], currentMax: Int = Int.MinValue): Int = lst match {
+    case Nil => currentMax
+    case h :: t => if(h > currentMax) max(t, h) else max(t, currentMax)
+  }
+
+  def takeWhile[T](lst: List[T], p: T => Boolean): List[T] = {
+    lst.foldRight(List[T]())((a, b) => if(p(a)) a :: b else List.empty)
+  }
+
+  def last[T](xs: List[T]): T = xs match {
+    case List() => throw new Error("List is empty")
+    //case Nil => throw new Error("List is empty")
+    case List(x) => x
+    case y :: ys => last(ys)
+  }
+
+  def mapViaFor[T, U](xs: List[T], f: T => U): List[U] = {
+    val arr = new ArrayBuffer[U]
+    for(e <- xs){
+      arr.append(f(e))
+    }
+    arr.toList
+  }
 }
+
