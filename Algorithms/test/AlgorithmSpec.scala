@@ -255,4 +255,24 @@ class AlgorithmSpec extends FunSuite{
     assert(algo.lcm(2,4,8) == 8)
     assert(algo.lcm(32,16,256,512) == 512)
   }
+
+  test("Finds max value in list"){
+    assert(algo.max(List(1,2,3,1,7,9,4,47)) == 47)
+    assert(algo.max(List(1,-444,3,1,7,9,4,4)) == 9)
+    assert(algo.max(Nil) == Int.MinValue)
+  }
+
+  test("Takes elements from collections until input function returns true"){
+    val f = (a: Int) => a > 3
+    assert(algo.takeWhile(List[Int](4,7,47,44,1,7,99), f) == List(4,7,47,44))
+  }
+
+  test("Returns last element of list"){
+    assert(algo.last(List(1,2,3,4,5,6)) == 6)
+  }
+
+  test("Returns new list according input function"){
+    val f = (a: Double) => a.round
+    assert(algo.mapViaFor(List(2.2, 3.4, 3.5, 4.6), f) == List(2, 3, 4, 5))
+  }
 }
